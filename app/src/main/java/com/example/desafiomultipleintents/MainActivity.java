@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView image;
     private Button but1, next;
+    private Boolean photoShot = false;
 
     public final static int REQUEST_PHOTO = 1;
 
@@ -36,14 +37,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(intent.resolveActivity(getPackageManager()) != null)
                 startActivityForResult(intent, REQUEST_PHOTO);
         }else if(v.getId() == next.getId()){
-
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("photo", photoShot);
+            bundle.putString("uri", "http://www.desafiolatam.com/");
+            Intent intent = new Intent(this, ResultActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_PHOTO && resultCode == RESULT_OK)
-            image.setImageBitmap((Bitmap)data.getExtras().get("data"));
+        if(requestCode == REQUEST_PHOTO && resultCode == RESULT_OK) {
+            image.setImageBitmap((Bitmap) data.getExtras().get("data"));
+            photoShot = true;
+            next.setEnabled(true);
+        }
     }
 }
