@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -50,13 +51,15 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private void sendData(){
         Intent inten = new Intent();
         inten.setAction(Intent.ACTION_SEND);
-        inten.putExtra("menssage", photo+" "+uri);
+        inten.putExtra("message", photo+" "+uri);
+        inten.setType("text/plain");
         startActivityForResult(inten, SHARE_DATA);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("AAA", "YES");
         if(requestCode == VIEW_WEB)
             Toast.makeText(this, "Ver web", Toast.LENGTH_LONG).show();
         if(requestCode == SHARE_DATA)
